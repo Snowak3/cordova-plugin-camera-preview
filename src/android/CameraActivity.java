@@ -102,6 +102,8 @@ public class CameraActivity extends Fragment {
   public int x;
   public int y;
 
+  public String cameraOverlayImage;
+
   private enum RecordingState {INITIALIZING, STARTED, STOPPED}
 
   private RecordingState mRecordingState = RecordingState.INITIALIZING;
@@ -147,6 +149,13 @@ public class CameraActivity extends Fragment {
       mainLayout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
       mainLayout.addView(mPreview);
       mainLayout.setEnabled(false);
+
+      ImageView camera_overlay = view.findViewById(getResources().getIdentifier("overlay_view", "id", appResourcesPackage));
+      byte[] decodedString = Base64.decode(cameraOverlayImage,Base64.NO_WRAP);
+      InputStream inputStream  = new ByteArrayInputStream(decodedString);
+      Bitmap bitmap  = BitmapFactory.decodeStream(inputStream);
+      camera_overlay.setImageBitmap(bitmap);
+      camera_overlay.setAlpha(0.5f);
 
         if(toBack == false) {
             this.setupTouchAndBackButton();
